@@ -57,15 +57,17 @@ def both_ends(s):
 # Hint: s.replace(stra, strb) returns a version of string s
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
+  listS = list(s)
   i = 0
   j = 1
-  while i < len(s):
-    while j < len(s):
-      if s[i] == s[j]:
-        s[j] = "*"
-        j += 1
+  while i < len(listS):
+    while j < len(listS):
+      if listS[i] == listS[j]:
+        listS[j] = "*"
+      j += 1
     i += 1
-    return s
+  s = ''.join(listS)
+  return s
 
 
 
@@ -81,8 +83,8 @@ def mix_up(a, b):
   first2b = b[:2]
   a = a.replace(first2a, first2b)
   b = b.replace(first2b, first2a)
-  ' '.join([a, b])
-  return
+  c = ' '.join([a, b])
+  return c
 
 
 # Provided simple test() function used in main() to print

@@ -7,7 +7,7 @@
 # http://code.google.com/edu/languages/google-python-class/
 
 # Additional basic string exercises
-
+import re
 # D. verbing
 # Given a string, if its length is at least 3,
 # add 'ing' to its end.
@@ -16,8 +16,15 @@
 # If the string length is less than 3, leave it unchanged.
 # Return the resulting string.
 def verbing(s):
-  # +++your code here+++
-  return
+  if s[-3:] == "ing":
+    s = s + "ly"
+    return s
+  elif len(s) >= 3:
+    s = s + "ing"
+    return s
+  else:
+    return s
+
 
 
 # E. not_bad
@@ -29,8 +36,19 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  # +++your code here+++
-  return
+  s = re.split("[.?! ]", s)
+  i = 0
+  while i < len(s):
+    if s[i] == "not":
+      daRest = s[i + 1:]
+      j = 0
+      while j < len(daRest):
+        if daRest[j] == "bad":
+          s[i:] = "good"
+        j += 1
+    i += 1
+  s = ' '.join(s)
+  return s
 
 
 # F. front_back
@@ -41,8 +59,25 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-  # +++your code here+++
-  return
+  if len(a) % 2 == 0:
+    evensplit = len(a) / 2
+    a_front = a[:evensplit]
+    a_back = a[evensplit:]
+  elif len(a) % 2 == 1:
+    oddsplitF = (len(a) / 2) + 1
+    oddsplitB = (len(a) / 2)
+    a_front = a[:oddsplitF]
+    a_back = a[-(oddsplitB):]
+  if len(b) % 2 == 0: #need to refactor (repeating code)
+    evensplit = len(b) / 2
+    b_front = b[:evensplit]
+    b_back = b[evensplit:]
+  elif len(b) % 2 == 1:
+    oddsplitF = (len(b) / 2) + 1
+    oddsplitB = (len(b) / 2)
+    b_front = b[:oddsplitF]
+    b_back = b[-(oddsplitB):]
+  return a_front + b_front + a_back + b_back
 
 
 # Simple provided test() function used in main() to print

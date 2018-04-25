@@ -36,15 +36,24 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  s = re.split("[.?! ]", s)
+  s = re.findall(r"[\w']+|[.,!?;]", s)
   i = 0
   while i < len(s):
     if s[i] == "not":
-      daRest = s[i + 1:]
+      firstpart = s[:i]
+      daRest = s[i:]
       j = 0
       while j < len(daRest):
         if daRest[j] == "bad":
-          s[i:] = "good"
+          del daRest[0:j + 1]
+          daRest.insert(0, "good")
+          s = firstpart + daRest
+          pmarks = ["!", ".", "?", ":", ";"]
+          if s[-1] in pmarks:
+            ending = "".join(s[-2:])
+            del s[-2:]
+            s.append(ending)
+          break
         j += 1
     i += 1
   s = ' '.join(s)

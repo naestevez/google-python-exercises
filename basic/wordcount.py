@@ -38,12 +38,52 @@ print_words() and print_top().
 """
 
 import sys
+import re
+import operator
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+
+def wordcount(filename):
+
+  #opens & reads file in one string, makes all words lowercase, splits according to words and punctuation marks, sorts
+  filename = open(filename)
+  f = filename.read().lower()
+  f = re.findall(r"[\w]+|[.,!?;]", f)
+  f = sorted(f)
+  dict = {}
+  count = 0
+
+  #counts each word and places it in a dictionary
+  while count < len(f):
+    if f[count] not in dict.keys():
+      dict[f[count]] = 1
+    elif f[count] in dict.keys():
+      dict[f[count]] += 1
+    count += 1
+
+  #closes file and returns dictionary
+  filename.close()
+  return dict
+
+#prints a dictionary of sorted words and their counts
+def print_words(filename):
+  dict = wordcount(filename)
+  for x, y in sorted(dict.items()):
+    print x, y
+
+#prints top 20 of the most common words(punctuations excluded)
+def print_top(filename):
+  dict = wordcount(filename)
+  sorted_values = sorted(dict.items(), key=operator.itemgetter(1), reverse=True)
+  print type(sorted_values)
+
+  for x, y in sorted_values[:20]:
+    if x not in ["!", ",", ".", "?" ]:
+      print x, y
 
 ###
 

@@ -42,9 +42,22 @@ def extract_names(filename):
   """
   f = open(filename, 'rU')
   for line in f:
-    if line[0:3] == '<h3':
+    if line.startswith('<h3'):
       h3 = line
       year = re.search(r'\d\d\d\d', h3).group()
+
+    names_ranks = re.findall(r'<tr align="right"><td>\d+<\/td><td>\w+<\/td><td>\w+<\/td>', line)
+    
+    for name_rank in names_ranks:
+      rank = re.search(r'\d+', name_rank).group()
+      name_rank = name_rank.split('</td>')
+
+      male_name = name_rank[1][4:]
+      female_name = name_rank[2][4:]
+      print rank, male_name, female_name
+      # male_name = re.search(r'<td>\w+', name_rank[1]).group()
+      # female_name = re.search(r'<td>\w+', name_rank[2]).group()
+
   return year
 
   sys.exit(0)

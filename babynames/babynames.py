@@ -41,15 +41,19 @@ def extract_names(filename):
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
   dict = {}
+  result = []
   f = open(filename, 'rU')
   for line in f:
+    #extract year and append to result list
     if line.startswith('<h3'):
       h3 = line
       year = re.search(r'\d\d\d\d', h3).group()
+      result.append(year)
 
+    #make a list of all html that contains names and rank
     names_ranks = re.findall(r'<tr align="right"><td>\d+<\/td><td>\w+<\/td><td>\w+<\/td>', line)
 
-
+    #extract rank, male names, and female names and store into dictionary
     for name_rank in names_ranks:
       rank = re.search(r'\d+', name_rank).group()
       name_rank = name_rank.split('</td>')
@@ -57,11 +61,14 @@ def extract_names(filename):
       male_name = name_rank[1][4:]
       female_name = name_rank[2][4:]
 
-
       dict[male_name] = rank
       dict[female_name] = rank
-      print dict
-  return year
+
+  # sort dictionary by keys and append to result list 
+  for key in sorted(dict.keys()):
+    result.append(key + " " + dict[key])
+
+  return result
 
   sys.exit(0)
 

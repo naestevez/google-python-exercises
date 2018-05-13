@@ -15,8 +15,16 @@ import commands
 """Copy Special exercise
 """
 
-# +++your code here+++
-# Write functions and modify main() to call them
+
+# milestone 1: print all filenames
+# milestone 2: print only special files
+# milestone 3: print by absolute path
+def List(dir):
+  filenames = os.listdir(dir)
+  for filename in filenames:
+    match = re.search(r'__\w+__', filename)
+    if match:
+      print os.path.abspath(filename)
 
 
 
@@ -48,8 +56,7 @@ def main():
     print "error: must specify one or more dirs"
     sys.exit(1)
 
-  # +++your code here+++
-  # Call your functions
-  
+  List(args[0])
+
 if __name__ == "__main__":
   main()

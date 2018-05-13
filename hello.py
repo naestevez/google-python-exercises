@@ -18,16 +18,19 @@ and run Python code; now you just need to learn Python!
 """
 
 import sys
+import os
+
+def List(dir):
+  filenames = os.listdir(dir)
+  for filename in filenames:
+    path = os.path.join(dir, filename)
+    print path
+    print os.path.abspath(path)
 
 # Define a main() function that prints a little greeting.
 def main():
   # Get the name from the command line, using 'World' as a fallback.
-  if len(sys.argv) >= 2:
-    name = sys.argv[1]
-  else:
-    name = 'World'
-  print('Hello', name)
-
+  List(sys.argv[1])
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
   main()

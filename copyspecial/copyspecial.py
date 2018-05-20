@@ -15,17 +15,26 @@ import commands
 """Copy Special exercise
 """
 
-
-# milestone 1: print all filenames
-# milestone 2: print only special files
-# milestone 3: print by absolute path
 def List(dir):
   filenames = os.listdir(dir)
+  special = []
   for filename in filenames:
     match = re.search(r'__\w+__', filename)
     if match:
-      print os.path.abspath(filename)
+      special.append(os.path.abspath(filename))
+      # print special
+  return special
 
+def copyspecial_newdir(dir, fromdir):
+  fromdir = os.path.abspath(fromdir)
+  dir = fromdir + "/" + dir
+  if os.path.exists(dir):
+    for specialfile in List(fromdir):
+      shutil.copy(specialfile, dir)
+  else:
+    os.mkdir(dir)
+    for specialfile in List(fromdir):
+      shutil.copy(specialfile, dir)
 
 
 def main():
@@ -43,20 +52,20 @@ def main():
   # or left as the empty string.
   # The args array is left just containing the dirs.
   todir = ''
+  tozip = ''
   if args[0] == '--todir':
     todir = args[1]
+    fromdir = args[2]
     del args[0:2]
-
-  tozip = ''
-  if args[0] == '--tozip':
+    copyspecial_newdir(todir, fromdir)
+  elif args[0] == '--tozip':
     tozip = args[1]
     del args[0:2]
-
-  if len(args) == 0:
+  elif len(args) == 0:
     print "error: must specify one or more dirs"
     sys.exit(1)
-
-  List(args[0])
+  else:
+    List(args[0])
 
 if __name__ == "__main__":
   main()

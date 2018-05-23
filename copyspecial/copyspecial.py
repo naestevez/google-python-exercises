@@ -11,6 +11,7 @@ import re
 import os
 import shutil
 import commands
+# import zipfile
 
 """Copy Special exercise
 """
@@ -22,10 +23,11 @@ def List(dir):
     match = re.search(r'__\w+__', filename)
     if match:
       special.append(os.path.abspath(filename))
-      # print special
+  for name in special:
+    print name
   return special
 
-def copyspecial_newdir(dir, fromdir):
+def copy2newdir(dir, fromdir):
   fromdir = os.path.abspath(fromdir)
   dir = fromdir + "/" + dir
   if os.path.exists(dir):
@@ -35,6 +37,18 @@ def copyspecial_newdir(dir, fromdir):
     os.mkdir(dir)
     for specialfile in List(fromdir):
       shutil.copy(specialfile, dir)
+
+def zippin(zipname, dir):
+  for specialfile in List(dir):
+    command = os.system("zip -j " + zipname + " " + specialfile)
+  print "Command I'm going to do: zip -j "+ zipname + " " + " ".join(List(dir))
+
+  #alternative solution - creates zipfile with zipfile module
+  # z = zipfile.ZipFile(zipname, 'w')
+  # for specialfile in List(dir):
+  #   z.write(specialfile)
+  # z.close()
+  # z.printdir()
 
 
 def main():
@@ -57,15 +71,18 @@ def main():
     todir = args[1]
     fromdir = args[2]
     del args[0:2]
-    copyspecial_newdir(todir, fromdir)
+    copy2newdir(todir, fromdir)
   elif args[0] == '--tozip':
-    tozip = args[1]
+    zipname = args[1]
+    dir = args[2]
+    zippin(zipname, dir)
     del args[0:2]
   elif len(args) == 0:
     print "error: must specify one or more dirs"
     sys.exit(1)
   else:
     List(args[0])
+
 
 if __name__ == "__main__":
   main()

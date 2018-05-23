@@ -16,6 +16,9 @@ import commands
 """Copy Special exercise
 """
 
+#searches through files and directories within a specified directory
+#finds files that match a pattern
+#prints absolute path of each file
 def List(dir):
   filenames = os.listdir(dir)
   special = []
@@ -27,6 +30,9 @@ def List(dir):
     print name
   return special
 
+#checks to see whether directoryA exists within directoryB
+#if directoryA is in directoryB, take each special files from List() function and copy to directoryA
+#if directoryA doesn't exist, make directoryA and copy special files to directoryA
 def copy2newdir(dir, fromdir):
   fromdir = os.path.abspath(fromdir)
   dir = fromdir + "/" + dir
@@ -38,6 +44,7 @@ def copy2newdir(dir, fromdir):
     for specialfile in List(fromdir):
       shutil.copy(specialfile, dir)
 
+#zips all special files with specified zipfile name & prints the command used to do it
 def zippin(zipname, dir):
   for specialfile in List(dir):
     command = os.system("zip -j " + zipname + " " + specialfile)
